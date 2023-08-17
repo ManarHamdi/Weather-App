@@ -7,11 +7,10 @@ import 'package:weather_app/models/WeatherResponceModel.dart';
 class SearchScreen extends StatelessWidget{
   static String routeName="search screen";
   String? cityName;
-  WeatherResponceModel? weatherData;
 
   @override
   Widget build(BuildContext context) {
-    weatherData=Provider.of(context);
+    WeatherResponceModel? weatherData=Provider.of <WeatherProvider> (context).weatherData;
 
     return Scaffold(
       appBar: AppBar(
@@ -26,8 +25,8 @@ class SearchScreen extends StatelessWidget{
             onSubmitted:(data) async{
               cityName=data;
                 WeatherResponceModel  weather= await WeatherService.getWeather(cityName!);
-                weatherData=weather;
-
+                weatherData=Provider.of<WeatherProvider>(context,listen: false).setWeatherData(weather);
+// weatherData=weather;
                 //3ayza a3ml Change notifier 2bl el pop
               Navigator.pop(context);
 

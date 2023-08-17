@@ -11,12 +11,10 @@ class HomeScreen extends StatefulWidget{
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  WeatherResponceModel? weatherData;
 
   @override
   Widget build(BuildContext context) {
-weatherData=Provider.of(context);
-
+WeatherResponceModel? weatherData=Provider.of <WeatherProvider> (context).weatherData;
     return Scaffold(appBar: AppBar(
       title: const Text("Weather"),
       actions: [

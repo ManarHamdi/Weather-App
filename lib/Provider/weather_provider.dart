@@ -6,9 +6,12 @@ import 'package:weather_app/models/WeatherResponceModel.dart';
 class WeatherProvider extends ChangeNotifier{
   WeatherResponceModel? weatherData;
 
-@override
-  void notifyListeners() {
-    // TODO: implement notifyListeners
-    super.notifyListeners();
+  setWeatherData (WeatherResponceModel? weather){
+    weatherData=weather;
+    notifyListeners();
   }
+  WeatherResponceModel? getWeatherData (){
+    return weatherData;
+  }
+
 }
