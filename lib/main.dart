@@ -6,22 +6,24 @@ import 'package:provider/provider.dart';
 import 'package:weather_app/models/WeatherResponceModel.dart';
 
 void main() {
-  runApp(WeatherApp());
+  runApp(
+      ChangeNotifierProvider(
+          create:(context){
+            return WeatherProvider();
+          } ,
+          child: WeatherApp()));
 }
 
 class WeatherApp extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
-  return ChangeNotifierProvider(
-    create: (context){
-      return WeatherProvider();
+  return MaterialApp(
+    debugShowCheckedModeBanner: false,
+    home: HomeScreen(),
+theme: ThemeData(primarySwatch: Provider.of<WeatherProvider>(context).weatherData?.getThemeColor()
+),
+    routes: {
     },
-    child: MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: HomeScreen(),
-      routes: {
-      },
-    ),
   );
 
   }

@@ -11,10 +11,10 @@ class HomeScreen extends StatefulWidget{
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
+WeatherResponceModel? weatherData;
   @override
   Widget build(BuildContext context) {
-WeatherResponceModel? weatherData=Provider.of <WeatherProvider> (context).weatherData;
+ weatherData=Provider.of <WeatherProvider> (context).weatherData;
     return Scaffold(appBar: AppBar(
       title: const Text("Weather"),
       actions: [
@@ -26,7 +26,8 @@ WeatherResponceModel? weatherData=Provider.of <WeatherProvider> (context).weathe
       ],
     )
       ,
-    body: weatherData==null ? Center(
+    body:
+    weatherData==null ? Center(
       child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: const [
@@ -34,31 +35,44 @@ WeatherResponceModel? weatherData=Provider.of <WeatherProvider> (context).weathe
         Text("searching now🔍",style: TextStyle(fontSize: 25),)
       ]),
     ) : Container(
-      color: Colors.orange,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+            begin:Alignment.topCenter,
+            end: Alignment.bottomCenter
+            ,colors: [
+          weatherData!.getThemeColor(),
+          weatherData!.getThemeColor()[400]!,
+          weatherData!.getThemeColor()[300]!,
+
+
+        ])
+      ),
       child: Center(
         child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Spacer(flex: 3,),
-          Text(weatherData!.location!.name??"",style: TextStyle(fontSize: 32,fontWeight: FontWeight.bold),),
-          Text("Updated at 12.11 pm", style: TextStyle(fontSize: 25),)
+          Text(weatherData!.location?.name??"",style: TextStyle(fontSize: 32,fontWeight: FontWeight.bold),),
+          Text("${weatherData!.location?.localtime??""}", style: TextStyle(fontSize: 21),)
               ,Padding(
                 padding: const EdgeInsets.all(25),
                 child: Row(
                   children: [
-                    Image.asset("assets/images/clear.png"),
+                    // getWeatherImage(weatherData!.forecast?.forecastday?[0]?.day?.condition?.text??"")
+                    Provider.of<WeatherProvider>(context).weatherData!.getWeatherImage()
+                    ,
                     Spacer(),
-                    Text("30",style: TextStyle(fontSize: 35,fontWeight:FontWeight.bold),),
+                    Text("${weatherData!.forecast?.forecastday![0].day?.avgtempC?.toInt().toString()??""}",style: TextStyle(fontSize: 35,fontWeight:FontWeight.bold),),
                     Spacer(),
                     Column(children: [
-                      Text("min temp:30"),
-                      Text("max temp:30")
+                      Text("min temp:${weatherData!.forecast?.forecastday?[0].day?.mintempC?.toInt().toString()??""}"),
+                      Text("max temp:${weatherData!.forecast?.forecastday?[0].day?.maxtempC?.toInt().toString()??""}")
                     ],)
                   ],
                 ),
               ),
               SizedBox(height: 20)
-              ,Text("Clear",style: TextStyle(fontSize: 35,fontWeight: FontWeight.bold),),
+              ,Text("${weatherData!.forecast?.forecastday?[0].day?.condition?.text??""}",style: TextStyle(fontSize: 35,fontWeight: FontWeight.bold),),
               Spacer(flex: 7,)
         ]),
       ),

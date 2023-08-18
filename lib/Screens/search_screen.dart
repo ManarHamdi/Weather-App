@@ -24,13 +24,12 @@ class SearchScreen extends StatelessWidget{
           TextField(
             onSubmitted:(data) async{
               cityName=data;
-                WeatherResponceModel  weather= await WeatherService.getWeather(cityName!);
+                WeatherResponceModel?  weather= await WeatherService.getWeather(cityName!);
                 weatherData=Provider.of<WeatherProvider>(context,listen: false).setWeatherData(weather);
-// weatherData=weather;
-                //3ayza a3ml Change notifier 2bl el pop
+              print(weatherData?.location?.name);
+
               Navigator.pop(context);
 
-              print(weatherData!.location!.name);
 
 
             } ,

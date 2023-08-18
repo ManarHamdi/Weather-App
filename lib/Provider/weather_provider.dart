@@ -14,4 +14,6 @@ class WeatherProvider extends ChangeNotifier{
     return weatherData;
   }
 
+
+
 }
